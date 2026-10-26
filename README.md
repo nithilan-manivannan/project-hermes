@@ -2,7 +2,7 @@
 
 **A case study on how easily AI safeguards and cloud free tiers can be strung together into email abuse, and why platforms should catch it.**
 
-This repository documents an experiment exploring how easy it can be to misuse AI and cloud services for harmful purposes. The project was not deployed in the real world. No actual spam was sent, and all accounts and domains used were fabricated. The intent is to highlight vulnerabilities, not to provide a working tool.
+This repository documents an experiment exploring how easily AI and cloud services can be misused for harmful purposes. The project was never deployed. No actual spam was sent, and all accounts and domains used were fabricated. The intent is to highlight weaknesses, not to provide a working tool.
 
 ## Motivation
 
@@ -20,19 +20,19 @@ The repository is kept as documentation of the experiment, not as software for u
 
 - `app.py`: the Flask demo page from the experiment, kept exactly as it was so the write up matches the artifact. It does nothing without its environment credentials, none of which are included here.
 - `templates/` and `index.html`: the interface pages presented to the study's reviewers: the sending view and an archival cover page.
-- `names.csv`: a sample list of first names used as fake sender identities during the experiment.
+- `names.csv`: a sample list of common first names drawn on to fabricate both first and last names of fake senders.
 - `bg.png`: cover art for the case study page.
 - `Procfile` and `requirements.txt`: inert leftovers of the original experiment setup.
 
-None of the credentials, domains, or sending pipelines referenced in the code are active. Requests fail by construction because the required environment variables exist nowhere.
+No credentials are included in this repository, so the sending path fails the moment it is run and nothing is callable. The demo was never hosted at a real address and the fabrication details referenced in code existed only for the duration of the study.
 
 ## Safeguards examined
 
-The study looked at three layers that all failed, at different points:
+The study looked at three layers that all fell short, at different points:
 
-1. **Model refusal**: benign framing (the photography club pretext) was enough to bypass a refusal, because framing was never tested against the underlying automation goal. Improved refusal training should treat multi step bulk automation requests as risky by default, not just obviously malicious single prompts.
-2. **Free tier quotas**: per domain quotas were the only real obstacle. The experiment's domains each carried their own independent send quota, which the demo tracked separately. Platforms do not correlate quota usage across accounts registered to the same operator, so scaling abuse is trivial.
-3. **Sender validation**: fabricated sender names drawn from a common names list sailed through purely procedural validation, since none of the account structures involved actually verified identity.
+1. **Model refusal**: benign framing (the photography club pretext) was enough to slip past a refusal, because the request's benign surface was never weighed against its underlying bulk automation goal. The gap worth closing is in evaluating multi step automation requests as a category.
+2. **Free tier quotas**: quota guards exist and bind when respected, but they attach to a single account or domain at a time. The study's limited pass showed that independent quotas, with no cross account correlation, leave the boundary porous in a way that platform engineering can address.
+3. **Sender validation**: fabricated sender names and fresh domains passed the procedural checks in place during the study, on their own, suggesting identity signals need to be weighted rather than taken at face value.
 
 ## Risks identified
 
